@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "菜单管理";
+}
+
+<div class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <div class="layui-form">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <select id="SystemCoding">
+                        <option value="">请选择系统</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" id="MenuName" placeholder="请输入菜单类别" class="layui-input" maxlength="30" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn search_btn" id="btnSearch">查询</button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-normal" id="btnAdd">添加</button>
+            </div>
+        </div>
+    </blockquote>
+    <table id="layerTables" lay-filter="layerTables"></table>
+</div>
+
+@section Scripts {
+    @Html.Script("~/Areas/system/Controljs/Menu/GetMenuCategroy.js")
+}

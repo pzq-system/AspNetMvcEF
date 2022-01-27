@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "菜单管理";
+}
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="padding: 15px;">
+            <form class="layui-form" action="" lay-filter="component-form-group">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统名称</label>
+                    <div class="layui-input-block">
+                        <select id="SystemCoding" lay-verify="required" name="SystemCoding">
+                            <option value="">请选择系统</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">类别名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="MenuName" name="MenuName" lay-verify="required" lay-reqText="请输入菜单名称" autocomplete="off" placeholder="请输入菜单名称" class="layui-input" maxlength="30">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="Sorting" name="Sorting" lay-verify="required|number" lay-reqText="请输入菜单排序|排序号必须是数字" placeholder="请输入菜单排序" autocomplete="off" class="layui-input" maxlength="5">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单图标</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Icon" name="Icon" lay-verify="required" lay-reqText="请输入菜单图标" placeholder="请输入菜单图标" autocomplete="off" class="layui-input" maxlength="30">
+                    </div>
+                    <div class="layui-inline">
+                        <a class="layui-btn layui-btn-normal" id="btnIcon">选择图标</a>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="btnSave" id="btnSave">提交数据</button>
+                        <button type="button" class="layui-btn layui-btn-primary" id="btnClose">关闭窗口</button>
+                    </div>
+                </div>
+                <input id="hdSystemCoding" type="hidden" />
+                <input id="hdId" type="hidden" name="Id" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Html.Script("~/Areas/system/Controljs/Menu/MenuCategroyEdit.js")
+}

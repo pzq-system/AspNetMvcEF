@@ -1,0 +1,30 @@
+﻿<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="padding: 15px;">
+            <form class="layui-form" action="" lay-filter="component-form-group">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户帐号</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="Useraccount" name="Useraccount" lay-verify="required" lay-reqText="请输入用户帐号" autocomplete="off" placeholder="请输入用户帐号" class="layui-input" maxlength="15" oninput="value=value.replace(/[^\w]/g, '')" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="UserName" name="UserName" lay-verify="required" lay-reqText="请输入用户姓名"  placeholder="请输入用户姓名" autocomplete="off" class="layui-input" maxlength="15" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="btnSave" id="btnSave">提交数据</button>
+                        <button type="button" class="layui-btn layui-btn-primary" id="btnClose">关闭窗口</button>
+                    </div>
+                </div>
+                <input id="Id" type="hidden" name="Id" />
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Areas/system/Controljs/Users/add.js?r=2"></script>
+}
