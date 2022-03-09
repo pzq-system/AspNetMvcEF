@@ -54,10 +54,11 @@ namespace Common.Output
         /// <param name="msg">消息</param>
         /// <param name="data">数据</param>
         /// <returns></returns>
-        public ResponseOutput<T> NotOk(string msg = null)
+        public ResponseOutput<T> NotOk(string msg = null, T data = default(T))
         {
             success = false;
             this.msg = msg;
+            this.data = data;
             return this;
         }
     }
@@ -93,9 +94,9 @@ namespace Common.Output
         /// <param name="msg">消息</param>
         /// <param name="data">数据</param>
         /// <returns></returns>
-        public static IResponseOutput NotOk<T>(string msg = null)
+        public static IResponseOutput NotOk<T>(string msg = null, T data = default(T))
         {
-            return new ResponseOutput<T>().NotOk(msg);
+            return new ResponseOutput<T>().NotOk(msg, data);
         }
 
         /// <summary>

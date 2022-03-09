@@ -97,7 +97,13 @@
   <ItemGroup>
     <Compile Include="Base\BaseService.cs" />
     <Compile Include="Base\IBaseService.cs" />
+    <Compile Include="Base\RequestSession.cs" />
+    <Compile Include="Base\SessionUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\Auth\AuthService.cs" />
+    <Compile Include="System\Auth\IAuthService.cs" />
+    <Compile Include="System\Auth\Input\AuthLoginInput.cs" />
+    <Compile Include="System\Auth\_MapperConfig.cs" />
     <Compile Include="System\Menu\IMenuService.cs" />
     <Compile Include="System\Menu\Input\MenuAddInput.cs" />
     <Compile Include="System\Menu\Input\MenuCategroyAddInput.cs" />

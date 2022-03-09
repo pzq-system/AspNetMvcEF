@@ -38,18 +38,18 @@
                             <div class="from">
                                 <ul class="from-list clearfix">
                                     <li class="from-item">
-                                        <input type="text" id="txtUsername" name="txtUsername" placeholder="帐号" class="input-txt" maxlength="6" />
+                                        <input type="text" id="Useraccount" name="txtUsername" placeholder="帐号" class="input-txt" maxlength="6" />
                                         <em class="input-icon"></em>
                                     </li>
                                     <li class="from-item">
-                                        <input type="text" id="txtPassword" name="txtPassword" placeholder="密码" class="input-txt" maxlength="20" />
+                                        <input type="password" id="Password" name="txtPassword" placeholder="密码" class="input-txt" maxlength="20" />
                                         <em class="input-icon password-icon"></em>
                                     </li>
                                     <li class="from-item" id="liValidateCode">
-                                        <input type="text" id="txtCode" name="code" placeholder="验证码" class="input-txt pull-left" maxlength="4" />
+                                        <input type="text" id="VerifyCode" name="code" placeholder="验证码" class="input-txt pull-left" maxlength="4" />
                                         <em class="input-icon code-icon"></em>
                                         <div class="codeImg pull-right">
-                                            <img src="/Login/VerificationCode" alt="验证码" title="点我刷新" id="imgCode" />
+                                            <img src="/Login/VerificationCode" alt="验证码" title="点我刷新" id="imgCode" onclick="" />
                                         </div>
                                     </li>
                                 </ul>
@@ -67,5 +67,9 @@
             <span>推荐屏幕分辨率：1920 * 1080</span>
         </div>
     </div>
+    <script src="~/Content/js/jquery-1.12.4.min.js"></script>
+    @Html.Script("~/Controljs/common.js")
+    <script src="~/Content/layer/layer.js"></script>
+    @Html.Script("~/Controljs/login.js")
 </body>
 </html>

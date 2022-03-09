@@ -1,16 +1,28 @@
 ﻿using Common.Helpers;
 
+using Service.System.Auth;
+using Service.System.Auth.Input;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Web.Common;
+using Web.Common.Filter;
 
 namespace Web.Controllers
 {
-    public class LoginController : Controller
+    [IgnoreAllowAnonymous]
+    public class LoginController : BaseController
     {
+        IAuthService _authService;
+
+        public LoginController(IAuthService authService)
+        {
+            _authService = authService;
+        }
         // GET: Login
         public ActionResult Index()
         {
@@ -18,10 +30,9 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Login()
+        public JsonResult Login(AuthLoginInput input)
         {
-
-            return Json(new { });
+            return Json(_authService.Login(input));
         }
 
         /// <summary>

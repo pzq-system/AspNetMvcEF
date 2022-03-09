@@ -25,3 +25,4 @@ E:\project\Demo\Common\bin\Debug\zh-Hans\System.Web.Razor.resources.dll
 E:\project\Demo\Common\bin\Debug\zh-Hans\System.Web.WebPages.resources.dll
 E:\project\Demo\Common\bin\Debug\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 E:\project\Demo\Common\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
+E:\project\Demo\Common\obj\Debug\Common.csproj.AssemblyReference.cache

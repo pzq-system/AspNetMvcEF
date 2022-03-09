@@ -6,18 +6,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Web.Common;
+using Web.Common.Filter;
+
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public HomeController()
         {
 
         }
-
+        [LogActionFilter]
         public ActionResult Index()
         {
-            ViewBag.Title = "Demo";
+            ViewBag.Title = "彭大大平台系统";
+            ViewBag.UserName = Param.sessionUserName;
             return View();
         }
 

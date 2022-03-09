@@ -1,6 +1,7 @@
 ﻿//layer全局变量
 var TwTime = 1500;
 var LayerSkin = "layui-layer-rim";
+var Anim = 6;
 
 
 function dictBinds(obj, action, val) {
