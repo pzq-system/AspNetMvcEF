@@ -16,14 +16,14 @@ namespace Service.System.Users
         public IResponseOutput GetUsersList(PagingInput<UsersPDto> input)
         {
 
-            Expression<Func<user, bool>> funcWhere = null;
+            Expression<Func<users, bool>> funcWhere = null;
             if (!string.IsNullOrWhiteSpace(input.Filter?.UserName))
             {
                 funcWhere = funcWhere.And(c => c.Useraccount.Contains(input.Filter.UserName));
                 funcWhere = funcWhere.Or(c => c.UserName.Contains(input.Filter.UserName));
             }
-            Expression<Func<user, DateTime>> funcOrderBy = c => c.CreationTime;
-            var list = context.user.FindBy(funcWhere, input.page, input.limit, out int total, funcOrderBy, false);
+            Expression<Func<users, DateTime>> funcOrderBy = c => c.CreationTime;
+            var list = context.users.FindBy(funcWhere, input.page, input.limit, out int total, funcOrderBy, false);
             return ResponseOutput.Ok(list, total);
         }
 
@@ -31,12 +31,12 @@ namespace Service.System.Users
         {
             try
             {
-                var listuser = context.user.Where(u => u.Useraccount == input.Useraccount).FirstOrDefault();
+                var listuser = context.users.Where(u => u.Useraccount == input.Useraccount).FirstOrDefault();
                 if (listuser != null)
                 {
                     return ResponseOutput.NotOk("用户账号已存在");
                 };
-                user info = new user();
+                users info = new users();
                 info.Useraccount = input.Useraccount;
                 info.UserName = input.UserName;
                 info.Password = MD5Encrypt.Encrypt32("PZQ@123");
@@ -44,7 +44,7 @@ namespace Service.System.Users
                 info.UpdateTime = DateTime.Now;
                 info.PassUpdateTime = DateTime.Now;
                 info.State = "1";
-                context.user.Add(info);
+                context.users.Add(info);
                 context.SaveChanges();
                 return ResponseOutput.Ok();
             }
@@ -58,13 +58,13 @@ namespace Service.System.Users
         {
             try
             {
-                var users = context.user.FindById(input.Id);
-                if (users == null)
+                var user = context.users.FindById(input.Id);
+                if (user == null)
                 {
                     return ResponseOutput.NotOk("用户不存在！");
                 }
-                users.UserName = input.UserName;
-                users.UpdateTime = DateTime.Now;
+                user.UserName = input.UserName;
+                user.UpdateTime = DateTime.Now;
                 context.SaveChanges();
                 return ResponseOutput.Ok();
             }
@@ -78,12 +78,12 @@ namespace Service.System.Users
         {
             try
             {
-                var users = context.user.FindById(Id);
+                var users = context.users.FindById(Id);
                 if (users == null)
                 {
                     return ResponseOutput.NotOk("用户不存在！");
                 }
-                context.user.Remove(Id);
+                context.users.Remove(Id);
                 context.SaveChanges();
                 return ResponseOutput.Ok();
             }

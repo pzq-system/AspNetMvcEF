@@ -139,12 +139,12 @@ namespace Entity
         /// <returns></returns>
         public static IQueryable<TEntity> FindBy<TEntity, TKey>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> where, int pageNumber, int pageSize, out int total, Expression<Func<TEntity, TKey>> orderBy, bool isAsc = true) where TEntity : BaseModel
         {
-            total = dbSet.Count(where);
             IQueryable<TEntity> entities;
+            total = dbSet.Count(where == null ? item => true : where);
             if (isAsc)
-                entities = dbSet.Where(where).OrderBy(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                entities = dbSet.Where(where == null ? item => true : where).OrderBy(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize);
             else
-                entities = dbSet.Where(where).OrderByDescending(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                entities = dbSet.Where(where == null ? item => true : where).OrderByDescending(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize);
             return entities;
         }
 

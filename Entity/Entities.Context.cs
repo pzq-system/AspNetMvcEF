@@ -31,8 +31,8 @@ namespace Entity
         public virtual DbSet<role> role { get; set; }
         public virtual DbSet<rolemenu> rolemenu { get; set; }
         public virtual DbSet<systemfunction> systemfunction { get; set; }
-        public virtual DbSet<systemparameter> systemparameter { get; set; }
+        public virtual DbSet<systemparameters> systemparameters { get; set; }
         public virtual DbSet<userrole> userrole { get; set; }
-        public virtual DbSet<user> user { get; set; }
+        public virtual DbSet<users> users { get; set; }
     }
 }

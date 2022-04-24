@@ -12,16 +12,17 @@ namespace Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class user:BaseModel
+    public partial class systemparameters:BaseModel
     {
         int _id;
         public new int Id { get{ return _id; } set{ _id=value; base.Id = value; } }
-        public string Useraccount { get; set; }
-        public string Password { get; set; }
-        public string UserName { get; set; }
+        public string Encode { get; set; }
+        public string EncodeName { get; set; }
+        public string EncodeValue { get; set; }
+        public string Description { get; set; }
+        public string SystemCoding { get; set; }
         public string State { get; set; }
         public System.DateTime CreationTime { get; set; }
         public System.DateTime UpdateTime { get; set; }
-        public System.DateTime PassUpdateTime { get; set; }
     }
 }

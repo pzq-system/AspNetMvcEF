@@ -26,7 +26,7 @@ namespace Service.System.Menu
             {
                 where = where.And(w => w.MenuName.Contains(input.Filter.MenuName));
             }
-            if (!string.IsNullOrWhiteSpace(input.Filter?.MenuName))
+            if (!string.IsNullOrWhiteSpace(input.Filter?.SystemCoding))
             {
                 where = where.And(w => w.SystemCoding.Equals(input.Filter.SystemCoding));
             }
@@ -53,7 +53,7 @@ namespace Service.System.Menu
         {
             var list = context.systemfunction.OrderByDescending(c => c.CreationTime).Select(m => new
             {
-                Key = m.Id.ToString(),
+                Key = m.SystemCoding,
                 Value = m.SystemCoding + "-" + m.SystemName
             }).ToList();
             return ResponseOutput.Ok(list);
@@ -69,16 +69,17 @@ namespace Service.System.Menu
                 {
                     return ResponseOutput.NotOk("菜单类别名称已存在");
                 }
-                menu info = new menu
-                {
-                    MenuName = input.MenuName,
-                    Menulevel = "1",
-                    SystemCoding = input.SystemCoding,
-                    Sorting = input.Sorting,
-                    Icon = input.Icon,
-                    CreationTime = DateTime.Now,
-                    UpdateTime = DateTime.Now
-                };
+                menu info = new menu();
+                info.MenuName = input.MenuName;
+                info.MenuAddress = "";
+                info.Menulevel = "1";
+                info.ParentMenu = 0;
+                info.SystemCoding = input.SystemCoding;
+                info.Sorting = input.Sorting;
+                info.Icon = input.Icon;
+                info.State = "1";
+                info.CreationTime = DateTime.Now;
+                info.UpdateTime = DateTime.Now;
                 context.menu.Add(info);
                 context.SaveChanges();
                 return ResponseOutput.Ok();
@@ -132,10 +133,10 @@ namespace Service.System.Menu
         {
             var parentmenu = input.Filter?.MenuName;
             Expression<Func<menu, bool>> where = null;
-            where.And(w => w.ParentMenu.Equals(input.Filter.ParentMenu));
+            where = where.And(w => w.ParentMenu == input.Filter.ParentMenu);
             if (parentmenu.NotNull())
             {
-                where.And(w => w.MenuName.Contains(input.Filter.MenuName));
+                where = where.And(w => w.MenuName.Contains(input.Filter.MenuName));
             }
             Expression<Func<menu, int>> orderby = o => o.Sorting;
             var query = context.menu.FindBy(where, input.page, input.limit, out int total, orderby);
@@ -169,8 +170,10 @@ namespace Service.System.Menu
                 {
                     MenuName = input.MenuName,
                     Menulevel = "2",
+                    State="1",
                     MenuAddress = input.MenuAddress,
                     SystemCoding = input.SystemCoding,
+                    ParentMenu = input.ParentMenu,
                     Sorting = input.Sorting,
                     Icon = input.Icon,
                     CreationTime = DateTime.Now,
@@ -198,6 +201,7 @@ namespace Service.System.Menu
                 menuupdate.Sorting = input.Sorting;
                 menuupdate.MenuName = input.MenuName;
                 menuupdate.Icon = input.Icon;
+                menuupdate.MenuAddress = input.MenuAddress;
                 menuupdate.SystemCoding = input.SystemCoding;
                 menuupdate.CreationTime = DateTime.Now;
                 context.SaveChanges();

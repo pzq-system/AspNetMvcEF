@@ -4,7 +4,7 @@ using Web.Filter;
 
 namespace Web.Common
 {
-    [LogActionFilter]
+    //[LogActionFilter]
     public class BaseController : Controller
     {
         /// <summary>

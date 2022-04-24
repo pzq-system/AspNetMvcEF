@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DbEntities">
-    <EntitySetMapping Name="dictionaries">
-      <EntityTypeMapping TypeName="Model.dictionary">
+  <EntityContainerMapping StorageEntityContainer="EntityStoreContainer" CdmEntityContainer="pzqEntities">
+    <EntitySetMapping Name="dictionary">
+      <EntityTypeMapping TypeName="Entity.dictionary">
         <MappingFragment StoreEntitySet="dictionary">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DictionaryTypeId" ColumnName="DictionaryTypeId" />
@@ -16,8 +16,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="dictionarytypes">
-      <EntityTypeMapping TypeName="Model.dictionarytype">
+    <EntitySetMapping Name="dictionarytype">
+      <EntityTypeMapping TypeName="Entity.dictionarytype">
         <MappingFragment StoreEntitySet="dictionarytype">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DicType" ColumnName="DicType" />
@@ -29,8 +29,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="menus">
-      <EntityTypeMapping TypeName="Model.menu">
+    <EntitySetMapping Name="menu">
+      <EntityTypeMapping TypeName="Entity.menu">
         <MappingFragment StoreEntitySet="menu">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="MenuName" ColumnName="MenuName" />
@@ -46,8 +46,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="roles">
-      <EntityTypeMapping TypeName="Model.role">
+    <EntitySetMapping Name="role">
+      <EntityTypeMapping TypeName="Entity.role">
         <MappingFragment StoreEntitySet="role">
           <ScalarProperty Name="RoleId" ColumnName="RoleId" />
           <ScalarProperty Name="SystemCoding" ColumnName="SystemCoding" />
@@ -60,8 +60,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="rolemenus">
-      <EntityTypeMapping TypeName="Model.rolemenu">
+    <EntitySetMapping Name="rolemenu">
+      <EntityTypeMapping TypeName="Entity.rolemenu">
         <MappingFragment StoreEntitySet="rolemenu">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -71,8 +71,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="systemfunctions">
-      <EntityTypeMapping TypeName="Model.systemfunction">
+    <EntitySetMapping Name="systemfunction">
+      <EntityTypeMapping TypeName="Entity.systemfunction">
         <MappingFragment StoreEntitySet="systemfunction">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SystemCoding" ColumnName="SystemCoding" />
@@ -83,7 +83,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="systemparameters">
-      <EntityTypeMapping TypeName="Model.systemparameter">
+      <EntityTypeMapping TypeName="Entity.systemparameters">
         <MappingFragment StoreEntitySet="systemparameters">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Encode" ColumnName="Encode" />
@@ -97,8 +97,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="userroles">
-      <EntityTypeMapping TypeName="Model.userrole">
+    <EntitySetMapping Name="userrole">
+      <EntityTypeMapping TypeName="Entity.userrole">
         <MappingFragment StoreEntitySet="userrole">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UsersId" ColumnName="UsersId" />
@@ -109,7 +109,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="users">
-      <EntityTypeMapping TypeName="Model.user">
+      <EntityTypeMapping TypeName="Entity.users">
         <MappingFragment StoreEntitySet="users">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Useraccount" ColumnName="Useraccount" />

@@ -15,7 +15,7 @@ namespace Service.System.Menu.Dto
         /// <summary>
         /// 系统编码
         /// </summary>
-        public int SystemCoding { get; set; }
+        public string SystemCoding { get; set; }
     }
 
     public class MenuCategoryEditPDto

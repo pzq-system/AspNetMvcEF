@@ -134,13 +134,13 @@
     <Compile Include="systemfunction.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="systemparameter.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="user.cs">
+    <Compile Include="systemparameters.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="userrole.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="users.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
   </ItemGroup>

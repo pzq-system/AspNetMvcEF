@@ -28,7 +28,7 @@ namespace Service.System.Auth
                 }
             }
             password = MD5Encrypt.Encrypt32(input.Password);
-            var query = context.user.Where(w => w.Useraccount.Equals(input.Useraccount)).FirstOrDefault();
+            var query = context.users.Where(w => w.Useraccount.Equals(input.Useraccount)).FirstOrDefault();
             if (query == null)
             {
                 return ResponseOutput.NotOk("账号或密码错误！");
