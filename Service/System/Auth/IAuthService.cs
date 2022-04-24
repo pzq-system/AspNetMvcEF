@@ -1,17 +1,11 @@
 ﻿using Common.Output;
 
-using Service.System.Auth.Input;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Service.System.Auth.Dto;
 
 namespace Service.System.Auth
 {
-    public interface IAuthService
+    public interface IAuthService : IService
     {
-        IResponseOutput Login(AuthLoginInput input);
+        IResponseOutput Login(AuthLoginPDto input);
     }
 }

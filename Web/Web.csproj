@@ -214,12 +214,12 @@
     <Compile Include="Areas\system\Controllers\UsersController.cs" />
     <Compile Include="Areas\system\systemAreaRegistration.cs" />
     <Compile Include="Common\BaseController.cs" />
-    <Compile Include="Common\Filter\IgnoreAllowAnonymous.cs" />
-    <Compile Include="Common\Filter\LogActionFilter.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filter\IgnoreAllowAnonymous.cs" />
+    <Compile Include="Filter\LogActionFilter.cs" />
     <Compile Include="Common\NewJsonResult.cs" />
     <Compile Include="Common\Param.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -434,14 +434,6 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{574FE2BB-EA69-4EBC-A226-03EB8B869DE9}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{A60FE690-A167-4E91-AC43-F3AE793C83F5}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Repository\Repository.csproj">
-      <Project>{22a90da2-10d4-4833-8c08-a5d0b7bf30a3}</Project>
-      <Name>Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{62852277-2DD6-406D-913A-02250B30823A}</Project>

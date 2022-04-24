@@ -5,13 +5,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 
-namespace IRepository
+namespace Repository
 {
-    public interface IBaseRepository
+    public interface IBaseRepository : IService
     {
         /// <summary>
         /// 根据id查询
@@ -119,22 +117,5 @@ namespace IRepository
         /// 把增/删的savechange给放到这里，保证事务的
         /// </summary>
         void Commit();
-
-        /// <summary>
-        /// 执行Sql 返回集合
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class;
-
-        /// <summary>
-        /// 执行Sql 无返回
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        void Excute<T>(string sql, SqlParameter[] parameters) where T : class;
     }
 }

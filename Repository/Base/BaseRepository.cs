@@ -1,45 +1,34 @@
 ﻿using Common.Output;
 
-using IRepository;
-
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 
-namespace Repository.Base
+namespace Repository
 {
-    public class BaseRepository : IBaseRepository
+    public class BaseRepository : ServiceBase, IBaseRepository
     {
-
-        protected DbContext Context = DbContextFactory.CreateDbContext();
-        public BaseRepository(DbContext context)
-        {
-            Context = context;
-        }
 
         public T Find<T>(int id) where T : class
         {
-            return Context.Set<T>().Find(id) ?? null;
+            return context.Set<T>().Find(id) ?? null;
         }
 
         public IQueryable<T> Set<T>() where T : class
         {
-            return Context.Set<T>();
+            return context.Set<T>();
         }
 
         public T Query<T>(Expression<Func<T, bool>> funcWhere) where T : class
         {
             if (funcWhere != null)
             {
-                return Context.Set<T>().Where(funcWhere).FirstOrDefault() ?? null;
+                return context.Set<T>().Where(funcWhere).FirstOrDefault() ?? null;
             }
-            return Context.Set<T>().FirstOrDefault() ?? null;
+            return context.Set<T>().FirstOrDefault() ?? null;
         }
 
         public IQueryable<T> Query<T, S>(Expression<Func<T, bool>> funcWhere, Expression<Func<T, S>> funcOrderBy, bool isAsc = true) where T : class
@@ -106,7 +95,7 @@ namespace Repository.Base
 
         public T Insert<T>(T t) where T : class
         {
-            Context.Set<T>().Add(t);
+            context.Set<T>().Add(t);
             Commit();
             return t;
 
@@ -114,7 +103,7 @@ namespace Repository.Base
 
         public IEnumerable<T> Insert<T>(IEnumerable<T> tList) where T : class
         {
-            Context.Set<T>().AddRange(tList);
+            context.Set<T>().AddRange(tList);
             Commit();
             return tList;
         }
@@ -122,8 +111,8 @@ namespace Repository.Base
         public void Update<T>(T t) where T : class
         {
             if (t == null) throw new Exception("t is null");
-            Context.Set<T>().Attach(t);//将数据附加到上下文，支持实体修改和新实体，重置为 UnChanged
-            Context.Entry<T>(t).State = EntityState.Modified;
+            context.Set<T>().Attach(t);//将数据附加到上下文，支持实体修改和新实体，重置为 UnChanged
+            context.Entry<T>(t).State = EntityState.Modified;
             Commit();//保存 然后重置为UnChanged
         }
 
@@ -131,8 +120,8 @@ namespace Repository.Base
         {
             foreach (var t in tList)
             {
-                Context.Set<T>().Attach(t);
-                Context.Entry<T>(t).State = EntityState.Modified;
+                context.Set<T>().Attach(t);
+                context.Entry<T>(t).State = EntityState.Modified;
             }
             this.Commit();
         }
@@ -141,15 +130,15 @@ namespace Repository.Base
         {
             T t = this.Find<T>(Id);//也可以附加
             if (t == null) throw new Exception("t is null");
-            Context.Set<T>().Remove(t);
+            context.Set<T>().Remove(t);
             Commit();
         }
 
         public void Delete<T>(T t) where T : class
         {
             if (t == null) throw new Exception("t is null");
-            Context.Set<T>().Attach(t);
-            Context.Set<T>().Remove(t);
+            context.Set<T>().Attach(t);
+            context.Set<T>().Remove(t);
             Commit();
         }
 
@@ -157,39 +146,15 @@ namespace Repository.Base
         {
             foreach (var t in tList)
             {
-                Context.Set<T>().Attach(t);
+                context.Set<T>().Attach(t);
             }
-            Context.Set<T>().RemoveRange(tList);
+            context.Set<T>().RemoveRange(tList);
             Commit();
         }
 
         public void Commit()
         {
-            Context.SaveChanges();
+            context.SaveChanges();
         }
-
-        public IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class
-        {
-            return Context.Database.SqlQuery<T>(sql, parameters).AsQueryable();
-        }
-
-        public void Excute<T>(string sql, SqlParameter[] parameters) where T : class
-        {
-            DbContextTransaction trans = null;
-            try
-            {
-                trans = Context.Database.BeginTransaction();
-                Context.Database.ExecuteSqlCommand(sql, parameters);
-                trans.Commit();
-            }
-            catch (Exception ex)
-            {
-                if (trans != null)
-                    trans.Rollback();
-                throw ex;
-            }
-        }
-
-
     }
 }

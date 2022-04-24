@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="dictionary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DictionaryTypeId" Type="int" />
+    <Property Name="Coding" Type="varchar" MaxLength="50" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Sorting" Type="int" />
+    <Property Name="SystemCoding" Type="varchar" MaxLength="4" />
+    <Property Name="ExtensionDescription" Type="varchar" MaxLength="255" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dictionarytype">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DicType" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DicName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SystemCoding" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="Illustrate" Type="varchar" MaxLength="300" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="menu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MenuAddress" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Menulevel" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="ParentMenu" Type="int" />
+    <Property Name="SystemCoding" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="Sorting" Type="int" Nullable="false" />
+    <Property Name="Icon" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SystemCoding" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Sorting" Type="int" Nullable="false" />
+    <Property Name="CreateUserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UpdateUserName" Type="varchar" MaxLength="50" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="rolemenu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="MenuId" Type="int" Nullable="false" />
+    <Property Name="CreateUserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="systemfunction">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SystemCoding" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="SystemName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="CreateUserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="systemparameters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Encode" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="EncodeName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="EncodeValue" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="255" />
+    <Property Name="SystemCoding" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="userrole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UsersId" Type="int" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="CreateUserName" Type="varchar" MaxLength="50" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Useraccount" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Precision="0" Nullable="false" />
+    <Property Name="PassUpdateTime" Type="datetime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="dictionary" EntityType="Self.dictionary" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="dictionarytype" EntityType="Self.dictionarytype" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="menu" EntityType="Self.menu" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="role" EntityType="Self.role" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="rolemenu" EntityType="Self.rolemenu" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="systemfunction" EntityType="Self.systemfunction" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="systemparameters" EntityType="Self.systemparameters" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="userrole" EntityType="Self.userrole" Schema="pzq" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="pzq" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

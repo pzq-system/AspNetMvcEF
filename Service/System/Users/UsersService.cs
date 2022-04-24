@@ -1,99 +1,97 @@
-﻿
-
-using Common.Extend;
+﻿using Common.Extend;
 using Common.Helpers;
 using Common.Output;
 using Common.Output.Input;
 
-using Model.System;
-
-using Repository.System.Users;
-
-using Service.System.Users.Input;
-using Service.System.Users.OutPut;
+using Entity;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.System.Users
 {
-    public class UsersService : BaseService, IUsersService
+    public class UsersService : ServiceBase, IUsersService
     {
-
-        IUsersRepository _userService;
-        public UsersService(IUsersRepository usersRepository)
+        public IResponseOutput GetUsersList(PagingInput<UsersPDto> input)
         {
-            _userService = usersRepository;
-        }
 
-
-        public IResponseOutput GetUsersList(PagingInput<UserEntity> input)
-        {
-            Expression<Func<UserEntity, bool>> funcWhere = null;
+            Expression<Func<user, bool>> funcWhere = null;
             if (!string.IsNullOrWhiteSpace(input.Filter?.UserName))
             {
                 funcWhere = funcWhere.And(c => c.Useraccount.Contains(input.Filter.UserName));
                 funcWhere = funcWhere.Or(c => c.UserName.Contains(input.Filter.UserName));
             }
-            Expression<Func<UserEntity, DateTime>> funcOrderBy = c => c.CreationTime;
-            List<UserEntity> userList = _userService.QueryPage(funcWhere, input.limit, input.page, funcOrderBy, out int total, false).ToList();
-            if (userList.Count == 0)
-            {
-                return ResponseOutput.NotOk("暂无数据");
-            }
-            List<UsersListOutput> outputlist = Mapper.Map<List<UsersListOutput>>(userList);
-            return ResponseOutput.Ok(outputlist, total);
+            Expression<Func<user, DateTime>> funcOrderBy = c => c.CreationTime;
+            var list = context.user.FindBy(funcWhere, input.page, input.limit, out int total, funcOrderBy, false);
+            return ResponseOutput.Ok(list, total);
         }
 
-        public IResponseOutput Add(UsersAddInput usersAddInput)
+        public IResponseOutput Add(UsersEditPDto input)
         {
-            var listuser = _userService.Query<UserEntity>(u => u.Useraccount == usersAddInput.Useraccount);
-            if (listuser == null)
+            try
             {
-                return ResponseOutput.NotOk("用户账号已存在");
+                var listuser = context.user.Where(u => u.Useraccount == input.Useraccount).FirstOrDefault();
+                if (listuser != null)
+                {
+                    return ResponseOutput.NotOk("用户账号已存在");
+                };
+                user info = new user();
+                info.Useraccount = input.Useraccount;
+                info.UserName = input.UserName;
+                info.Password = MD5Encrypt.Encrypt32("PZQ@123");
+                info.CreationTime = DateTime.Now;
+                info.UpdateTime = DateTime.Now;
+                info.PassUpdateTime = DateTime.Now;
+                info.State = "1";
+                context.user.Add(info);
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            if (usersAddInput.Password.IsNull())
+            catch (Exception err)
             {
-                usersAddInput.Password = "PZQ@123";
+                return ResponseOutput.NotOk(err.Message);
             }
-            usersAddInput.Password = MD5Encrypt.Encrypt32(usersAddInput.Password);
-
-            var entity = Mapper.Map<UserEntity>(usersAddInput);
-
-            UserEntity user = _userService.Insert(entity);
-            if (!(user?.Id > 0))
-            {
-                return ResponseOutput.NotOk("添加用户信息失败");
-            }
-            return ResponseOutput.Ok();
         }
 
-        public IResponseOutput Update(UsersUpdateInput input)
+        public IResponseOutput Update(UsersEditPDto input)
         {
-            var users = _userService.Find<UserEntity>(input.Id);
-            if (!(users?.Id > 0))
+            try
             {
-                return ResponseOutput.NotOk("用户不存在！");
+                var users = context.user.FindById(input.Id);
+                if (users == null)
+                {
+                    return ResponseOutput.NotOk("用户不存在！");
+                }
+                users.UserName = input.UserName;
+                users.UpdateTime = DateTime.Now;
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-
-            Mapper.Map(input, users);
-            _userService.Update(users);
-            return ResponseOutput.Ok();
+            catch (Exception err)
+            {
+                return ResponseOutput.NotOk(err.Message);
+            }
         }
 
         public IResponseOutput Delete(int Id)
         {
-            var users = _userService.Find<UserEntity>(Id);
-            if (users == null)
+            try
             {
-                return ResponseOutput.NotOk("用户不存在！");
+                var users = context.user.FindById(Id);
+                if (users == null)
+                {
+                    return ResponseOutput.NotOk("用户不存在！");
+                }
+                context.user.Remove(Id);
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            _userService.Delete<UserEntity>(Id);
-            return ResponseOutput.Ok();
+            catch (Exception err)
+            {
+                return ResponseOutput.NotOk(err.Message);
+            }
+
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using Common.Output;
 using Common.Output.Input;
 
-using Model.System;
-
-using Service.System.Menu.Input;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Service.System.Menu.Dto;
 
 namespace Service.System.Menu
 {
-    public interface IMenuService
+    public interface IMenuService:IService
     {
+       
+
+        /// <summary>
+        /// 查询菜单类别
+        /// </summary>
+        /// <returns></returns>
+        IResponseOutput GetMenuCategory(PagingInput<MenuCategoryPDto> input);
+
         /// <summary>
         /// 查询系统编码
         /// </summary>
@@ -22,23 +22,17 @@ namespace Service.System.Menu
         IResponseOutput GetSystemCode();
 
         /// <summary>
-        /// 查询菜单类别
-        /// </summary>
-        /// <returns></returns>
-        IResponseOutput GetMenuCategory(PagingInput<MenuEntity> input);
-
-        /// <summary>
         /// 添加菜单类别
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        IResponseOutput MenuCategroyAdd(MenuCategroyAddInput input);
+        IResponseOutput MenuCategroyAdd(MenuCategoryEditPDto input);
 
         /// <summary>
         /// 编辑菜单类别
         /// </summary>
         /// <returns></returns>
-        IResponseOutput MenuCategroyUpdate(MenuCategroyUpdateInput input);
+        IResponseOutput MenuCategroyUpdate(MenuCategoryEditPDto input);
 
         /// <summary>
         /// 菜单类别删除
@@ -50,19 +44,19 @@ namespace Service.System.Menu
         /// 查询菜单
         /// </summary>
         /// <returns></returns>
-        IResponseOutput GetMenu(PagingInput<MenuEntity> input);
+        IResponseOutput GetMenu(PagingInput<MenuPDto> input);
 
         /// <summary>
         /// 添加菜单
         /// </summary>
         /// <returns></returns>
-        IResponseOutput MenuAdd(MenuAddInput input);
+        IResponseOutput MenuAdd(MenuEditPDto input);
 
         /// <summary>
         /// 编辑菜单
         /// </summary>
         /// <returns></returns>
-        IResponseOutput MenuUpdate(MenuUpdateInput input);
+        IResponseOutput MenuUpdate(MenuEditPDto input);
 
         /// <summary>
         /// 菜单删除
@@ -74,6 +68,6 @@ namespace Service.System.Menu
         /// 修改菜单状态
         /// </summary>
         /// <returns></returns>
-        IResponseOutput UpdateMenuZt(MenuUpdateZtInput input);
+        IResponseOutput UpdateMenuZt(MenuUpdateZtPDto input);
     }
 }

@@ -33,3 +33,4 @@ E:\project\Demo\Model\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 E:\project\Demo\Model\obj\Debug\Model.csproj.CopyComplete
 E:\project\Demo\Model\obj\Debug\Model.dll
 E:\project\Demo\Model\obj\Debug\Model.pdb
+E:\project\Demo\Model\obj\Debug\Model.csproj.AssemblyReference.cache

@@ -1,10 +1,8 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 
-using Repository.Base;
 
 using System;
-using System.Data.Entity;
 using System.Reflection;
 using System.Web.Mvc;
 
@@ -23,10 +21,10 @@ namespace Web
                 Assembly controleAss = Assembly.Load("Web");
                 builder.RegisterControllers(controleAss);
 
-                builder.RegisterType<BaseDbContext>().As<DbContext>().InstancePerRequest();
+                //builder.RegisterType<BaseDbContext>().As<DbContext>().InstancePerRequest();
 
-                Assembly repAss = Assembly.Load("Repository");
-                builder.RegisterTypes(repAss.GetTypes()).AsImplementedInterfaces();
+                //Assembly repAss = Assembly.Load("Repository");
+                //builder.RegisterTypes(repAss.GetTypes()).AsImplementedInterfaces();
 
                 Assembly bllAss = Assembly.Load("Service");
                 builder.RegisterTypes(bllAss.GetTypes()).AsImplementedInterfaces();

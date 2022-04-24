@@ -4,7 +4,7 @@ using Model.System;
 
 using System.Data.Entity;
 
-namespace Repository.Base
+namespace Repository
 {
     public partial class BaseDbContext : DbContext
     {

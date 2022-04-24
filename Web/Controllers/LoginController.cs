@@ -1,25 +1,20 @@
 ﻿using Common.Helpers;
 
 using Service.System.Auth;
-using Service.System.Auth.Input;
+using Service.System.Auth.Dto;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 using Web.Common;
-using Web.Common.Filter;
 
 namespace Web.Controllers
 {
-    [IgnoreAllowAnonymous]
     public class LoginController : BaseController
     {
-        IAuthService _authService;
+        Lazy<IAuthService> _authService;
 
-        public LoginController(IAuthService authService)
+        public LoginController(Lazy<IAuthService> authService)
         {
             _authService = authService;
         }
@@ -30,9 +25,9 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Login(AuthLoginInput input)
+        public JsonResult Login(AuthLoginPDto input)
         {
-            return Json(_authService.Login(input));
+            return Json(_authService.Value.Login(input));
         }
 
         /// <summary>

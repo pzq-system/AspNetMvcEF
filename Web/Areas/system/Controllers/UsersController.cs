@@ -1,11 +1,9 @@
 ﻿
 using Common.Output.Input;
 
-using Model.System;
-
 using Service.System.Users;
-using Service.System.Users.Input;
 
+using System;
 using System.Web.Mvc;
 
 using Web.Common;
@@ -15,9 +13,9 @@ namespace Web.Areas.system.Controllers
     public class UsersController : BaseController
     {
 
-        IUsersService _userService;
+        Lazy<IUsersService> _userService;
 
-        public UsersController(IUsersService userService)
+        public UsersController(Lazy<IUsersService> userService)
         {
             _userService = userService;
         }
@@ -28,9 +26,9 @@ namespace Web.Areas.system.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(PagingInput<UserEntity> input)
+        public ActionResult Index(PagingInput<UsersPDto> input)
         {
-            return ResultJson(_userService.GetUsersList(input));
+            return ResultJson(_userService.Value.GetUsersList(input));
         }
 
         public ActionResult Add()
@@ -39,9 +37,9 @@ namespace Web.Areas.system.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(UsersAddInput users)
+        public ActionResult Add(UsersEditPDto users)
         {
-            return Json(_userService.Add(users));
+            return Json(_userService.Value.Add(users));
         }
 
         public ActionResult Update()
@@ -50,16 +48,16 @@ namespace Web.Areas.system.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(UsersUpdateInput users)
+        public ActionResult Update(UsersEditPDto users)
         {
-            return Json(_userService.Update(users));
+            return Json(_userService.Value.Update(users));
         }
 
         [HttpPost]
 
         public ActionResult Delete(int Id)
         {
-            return Json(_userService.Delete(Id));
+            return Json(_userService.Value.Delete(Id));
         }
 
     }

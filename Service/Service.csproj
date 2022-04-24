@@ -37,6 +37,7 @@
     <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=e767ac9c89543656, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.8.1.0\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
@@ -95,45 +96,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseService.cs" />
-    <Compile Include="Base\IBaseService.cs" />
     <Compile Include="Base\RequestSession.cs" />
     <Compile Include="Base\SessionUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBase\IService.cs" />
+    <Compile Include="ServiceBase\ServiceBase.cs" />
     <Compile Include="System\Auth\AuthService.cs" />
+    <Compile Include="System\Auth\Dto\AuthDto.cs" />
     <Compile Include="System\Auth\IAuthService.cs" />
-    <Compile Include="System\Auth\Input\AuthLoginInput.cs" />
-    <Compile Include="System\Auth\_MapperConfig.cs" />
+    <Compile Include="System\Menu\Dto\MenuDto.cs" />
     <Compile Include="System\Menu\IMenuService.cs" />
-    <Compile Include="System\Menu\Input\MenuAddInput.cs" />
-    <Compile Include="System\Menu\Input\MenuCategroyAddInput.cs" />
-    <Compile Include="System\Menu\Input\MenuCategroyUpdateInput.cs" />
-    <Compile Include="System\Menu\Input\MenuUpdateInput.cs" />
-    <Compile Include="System\Menu\Input\MenuUpdateZtInput.cs" />
     <Compile Include="System\Menu\MenuService.cs" />
-    <Compile Include="System\Menu\_MapperConfig.cs" />
-    <Compile Include="System\Users\Input\UsersAddInput.cs" />
-    <Compile Include="System\Users\Input\UsersUpdateInput.cs" />
+    <Compile Include="System\Users\Dto\UsersDto.cs" />
     <Compile Include="System\Users\IUsersService.cs" />
-    <Compile Include="System\Users\OutPut\UsersListOutput.cs" />
     <Compile Include="System\Users\UsersService.cs" />
-    <Compile Include="System\Users\_MapperConfig.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="System\Menu\OutPut\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{574FE2BB-EA69-4EBC-A226-03EB8B869DE9}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{A60FE690-A167-4E91-AC43-F3AE793C83F5}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Repository\Repository.csproj">
-      <Project>{22A90DA2-10D4-4833-8C08-A5D0B7BF30A3}</Project>
-      <Name>Repository</Name>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{53134DD4-A77B-47C5-BA37-2D8CAB0AEF43}</Project>
+      <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

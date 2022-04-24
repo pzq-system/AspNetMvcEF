@@ -1,10 +1,9 @@
 ﻿using Common.Output.Input;
 
-using Model.System;
-
 using Service.System.Menu;
-using Service.System.Menu.Input;
+using Service.System.Menu.Dto;
 
+using System;
 using System.Web.Mvc;
 
 using Web.Common;
@@ -13,9 +12,9 @@ namespace Web.Areas.system.Controllers
 {
     public class MenuController : BaseController
     {
-        IMenuService _menuService;
+        Lazy<IMenuService> _menuService;
 
-        public MenuController(IMenuService menuService)
+        public MenuController(Lazy<IMenuService> menuService)
         {
             _menuService = menuService;
         }
@@ -26,9 +25,9 @@ namespace Web.Areas.system.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetMenuCategroy(PagingInput<MenuEntity> input)
+        public ActionResult GetMenuCategroy(PagingInput<MenuCategoryPDto> input)
         {
-            return ResultJson(_menuService.GetMenuCategory(input));
+            return ResultJson(_menuService.Value.GetMenuCategory(input));
         }
 
         public ActionResult MenuCategroyEdit()
@@ -38,28 +37,28 @@ namespace Web.Areas.system.Controllers
 
 
         [HttpPost]
-        public ActionResult MenuCategroyAdd(MenuCategroyAddInput input)
+        public ActionResult MenuCategroyAdd(MenuCategoryEditPDto input)
         {
-            return Json(_menuService.MenuCategroyAdd(input));
+            return Json(_menuService.Value.MenuCategroyAdd(input));
         }
 
 
         [HttpPost]
-        public ActionResult MenuCategroyUpdate(MenuCategroyUpdateInput input)
+        public ActionResult MenuCategroyUpdate(MenuCategoryEditPDto input)
         {
-            return Json(_menuService.MenuCategroyUpdate(input));
+            return Json(_menuService.Value.MenuCategroyUpdate(input));
         }
 
         [HttpPost]
         public ActionResult GetSystemList()
         {
-            return Json(_menuService.GetSystemCode());
+            return Json(_menuService.Value.GetSystemCode());
         }
 
         [HttpPost]
         public ActionResult DeleteMenuCategroy(int Id)
         {
-            return Json(_menuService.DeleteMenuCategroy(Id));
+            return Json(_menuService.Value.DeleteMenuCategroy(Id));
         }
 
         public ActionResult GetIcon()
@@ -73,9 +72,9 @@ namespace Web.Areas.system.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetMenu(PagingInput<MenuEntity> input)
+        public ActionResult GetMenu(PagingInput<MenuPDto> input)
         {
-            return Json(_menuService.GetMenu(input));
+            return Json(_menuService.Value.GetMenu(input));
         }
 
         public ActionResult MenuEdit()
@@ -83,22 +82,22 @@ namespace Web.Areas.system.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult MenuAdd(MenuAddInput input)
+        public ActionResult MenuAdd(MenuEditPDto input)
         {
-            return Json(_menuService.MenuAdd(input));
+            return Json(_menuService.Value.MenuAdd(input));
         }
 
 
         [HttpPost]
-        public ActionResult MenuUpdate(MenuUpdateInput input)
+        public ActionResult MenuUpdate(MenuEditPDto input)
         {
-            return Json(_menuService.MenuUpdate(input));
+            return Json(_menuService.Value.MenuUpdate(input));
         }
 
         [HttpPost]
-        public ActionResult UpdateMenuZt(MenuUpdateZtInput input)
+        public ActionResult UpdateMenuZt(MenuUpdateZtPDto input)
         {
-            return Json(_menuService.UpdateMenuZt(input));
+            return Json(_menuService.Value.UpdateMenuZt(input));
         }
 
 

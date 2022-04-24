@@ -4,64 +4,54 @@ using Common.Extend;
 using Common.Output;
 using Common.Output.Input;
 
-using Model.System;
+using Entity;
 
-using Repository.System.Menu;
-using Repository.System.Systemfunction;
-
-using Service.System.Menu.Input;
+using Service.System.Menu.Dto;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace Service.System.Menu
 {
-    public class MenuService : BaseService, IMenuService
+    public class MenuService : ServiceBase, IMenuService
     {
-        IMenuRepository _menuService;
-        ISystemfunctionRepository _systemfunctionService;
-        public MenuService(IMenuRepository menuRepository, ISystemfunctionRepository systemfunctionRepository)
-        {
-            _menuService = menuRepository;
-            _systemfunctionService = systemfunctionRepository;
-        }
 
-        public IResponseOutput GetMenuCategory(PagingInput<MenuEntity> input)
+        public IResponseOutput GetMenuCategory(PagingInput<MenuCategoryPDto> input)
         {
-            var menuname = input.Filter?.MenuName;
-            var systemcode = input.Filter?.SystemCoding;
-            var list = from a in _menuService.Set<MenuEntity>()
-                       join b in _menuService.Set<SystemfunctionEntity>() on a.SystemCoding equals b.Id
-                       where a.Menulevel == "1"
-                       orderby a.Sorting ascending
-                       select new
-                       {
-                           Id = a.Id,
-                           MenuName = a.MenuName,
-                           SystemCoding = a.SystemCoding,
-                           CodingName = b.SystemCoding + "-" + b.SystemName,
-                           Sorting = a.Sorting,
-                           Icon = a.Icon,
-                           State = a.State
-                       };
-            if (menuname.NotNull())
+            Expression<Func<menu, bool>> where = null;
+            if (!string.IsNullOrWhiteSpace(input.Filter?.MenuName))
             {
-                list = list.Where(m => m.MenuName.Contains(menuname));
+                where = where.And(w => w.MenuName.Contains(input.Filter.MenuName));
             }
-            if (systemcode != null && systemcode != 0)
+            if (!string.IsNullOrWhiteSpace(input.Filter?.MenuName))
             {
-                list = list.Where(m => m.SystemCoding.Equals((int)systemcode));
+                where = where.And(w => w.SystemCoding.Equals(input.Filter.SystemCoding));
             }
-            int toTal = list.Count();
-            var outlist = list.Skip((input.page - 1) * input.limit).Take(input.limit).ToList();
-            return ResponseOutput.Ok(outlist, toTal);
+            Expression<Func<menu, int>> orderby = o => o.Sorting;
+            var query = context.menu.FindBy(where, input.page, input.limit, out int total, orderby);
+            var list = query.ToList().Select(a =>
+             {
+                 var coding = context.systemfunction.Where(w => w.SystemCoding == a.SystemCoding).FirstOrDefault();
+                 return new
+                 {
+                     Id = a.Id,
+                     MenuName = a.MenuName,
+                     SystemCoding = a.SystemCoding,
+                     CodingName = coding.SystemCoding + "-" + coding.SystemName,
+                     Sorting = a.Sorting,
+                     Icon = a.Icon,
+                     State = a.State
+                 };
+             });
+            return ResponseOutput.Ok(list, total);
         }
 
         public IResponseOutput GetSystemCode()
         {
-            List<OptionOutput> list = _systemfunctionService.Query<SystemfunctionEntity, DateTime>(null, c => c.CreationTime).Select(m => new OptionOutput
+            var list = context.systemfunction.OrderByDescending(c => c.CreationTime).Select(m => new
             {
                 Key = m.Id.ToString(),
                 Value = m.SystemCoding + "-" + m.SystemName
@@ -70,134 +60,192 @@ namespace Service.System.Menu
         }
 
 
-        public IResponseOutput MenuCategroyAdd(MenuCategroyAddInput input)
+        public IResponseOutput MenuCategroyAdd(MenuCategoryEditPDto input)
         {
-            var listmenu = _menuService.Query<MenuEntity>(m => m.MenuName.Equals(input.MenuName) && m.SystemCoding.Equals(input.SystemCoding));
-            if (listmenu != null)
+            try
             {
-                return ResponseOutput.NotOk("菜单类别名称已存在");
+                var menu = context.menu.Where(w => w.MenuName.Equals(input.MenuName) && w.SystemCoding.Equals(input.SystemCoding)).FirstOrDefault();
+                if (menu != null)
+                {
+                    return ResponseOutput.NotOk("菜单类别名称已存在");
+                }
+                menu info = new menu
+                {
+                    MenuName = input.MenuName,
+                    Menulevel = "1",
+                    SystemCoding = input.SystemCoding,
+                    Sorting = input.Sorting,
+                    Icon = input.Icon,
+                    CreationTime = DateTime.Now,
+                    UpdateTime = DateTime.Now
+                };
+                context.menu.Add(info);
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            var entity = Mapper.Map<MenuEntity>(input);
-            MenuEntity menuEntity = _menuService.Insert(entity);
-            if (!(menuEntity.Id > 0))
+            catch (Exception err)
             {
-                return ResponseOutput.NotOk("添加菜单类别失败");
+                return ResponseOutput.NotOk(err.Message);
             }
-            return ResponseOutput.Ok();
-
         }
-        public IResponseOutput MenuCategroyUpdate(MenuCategroyUpdateInput input)
+        public IResponseOutput MenuCategroyUpdate(MenuCategoryEditPDto input)
         {
-            var menu = _menuService.Find<MenuEntity>(input.Id);
-            if (!(menu?.Id > 0))
+            try
             {
-                return ResponseOutput.NotOk("菜单类别不存在！");
+                var menuupdate = context.menu.Find(input.Id);
+                if (menuupdate == null)
+                {
+                    return ResponseOutput.NotOk("菜单类别不存在！");
+                }
+                menuupdate.UpdateTime = DateTime.Now;
+                menuupdate.Sorting = input.Sorting;
+                menuupdate.MenuName = input.MenuName;
+                menuupdate.SystemCoding = input.SystemCoding;
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            input.UpdateTime = DateTime.Now;
-            Mapper.Map(input, menu);
-            _menuService.Update(menu);
-            return ResponseOutput.Ok();
+            catch (Exception err)
+            {
+                return ResponseOutput.NotOk(err.Message);
+            }
         }
 
         public IResponseOutput DeleteMenuCategroy(int id)
         {
-            var menucategroy = _menuService.Find<MenuEntity>(id);
-            if (menucategroy == null)
+            var menudelete = context.menu.Find(id);
+            if (menudelete == null)
             {
-                return ResponseOutput.NotOk("该菜单类别为空，不能删除");
+                return ResponseOutput.NotOk("菜单类别不存在！");
             }
-
-            var Parentmenu = _menuService.Query<MenuEntity>(m => m.ParentMenu == id);
+            var Parentmenu = context.menu.Where(w => w.ParentMenu == id).FirstOrDefault();
             if (Parentmenu != null)
             {
                 return ResponseOutput.NotOk("该菜单下存在子菜单，不能删除");
             }
-            _menuService.Delete<MenuEntity>(id);
+            context.menu.Remove(id);
+            context.SaveChanges();
             return ResponseOutput.Ok();
         }
 
         [Obsolete]
-        public IResponseOutput GetMenu(PagingInput<MenuEntity> input)
+        public IResponseOutput GetMenu(PagingInput<MenuPDto> input)
         {
-            var parentmenu = input.Filter?.ParentMenu;
-            var menuname = input.Filter?.MenuName;
-            var list = from t in _menuService.Set<MenuEntity>()
-                       join t1 in _menuService.Set<MenuEntity>() on t.ParentMenu equals t1.Id
-                       where t.ParentMenu == parentmenu
-                       orderby t.Sorting ascending
-                       select new
-                       {
-                           t.Id,
-                           t.MenuName,
-                           ParentMenuName = t1.MenuName,
-                           t.MenuAddress,
-                           t.Sorting,
-                           t.State,
-                           t.Icon
-                       };
-
-            if (menuname.NotNull())
+            var parentmenu = input.Filter?.MenuName;
+            Expression<Func<menu, bool>> where = null;
+            where.And(w => w.ParentMenu.Equals(input.Filter.ParentMenu));
+            if (parentmenu.NotNull())
             {
-                list = list.Where(m => m.MenuName.Contains(menuname));
+                where.And(w => w.MenuName.Contains(input.Filter.MenuName));
             }
-            int total = list.Count();
-            var outlist = list.Skip((input.page - 1) * input.limit).Take(input.limit).ToList();
-            return ResponseOutput.Ok(outlist, total);
+            Expression<Func<menu, int>> orderby = o => o.Sorting;
+            var query = context.menu.FindBy(where, input.page, input.limit, out int total, orderby);
+            var list = query.ToList().Select(a =>
+            {
+                var parent = context.menu.Where(w => w.Id == a.ParentMenu).FirstOrDefault();
+                return new
+                {
+                    Id = a.Id,
+                    a.MenuName,
+                    ParentMenuName = parent.MenuName,
+                    a.MenuAddress,
+                    a.Sorting,
+                    a.State,
+                    a.Icon
+                };
+            });
+            return ResponseOutput.Ok(list, total);
         }
 
-        public IResponseOutput MenuAdd(MenuAddInput input)
+        public IResponseOutput MenuAdd(MenuEditPDto input)
         {
-            var listmenu = _menuService.Query<MenuEntity>(m => m.MenuName.Equals(input.MenuName) && m.ParentMenu == input.ParentMenu);
-            if (listmenu != null)
+            try
             {
-                return ResponseOutput.NotOk("菜单名称已存在");
+                var menus = context.menu.Where(m => m.MenuName.Equals(input.MenuName) && m.ParentMenu == input.ParentMenu).FirstOrDefault();
+                if (menus != null)
+                {
+                    return ResponseOutput.NotOk("菜单名称已存在");
+                }
+                menu info = new menu
+                {
+                    MenuName = input.MenuName,
+                    Menulevel = "2",
+                    MenuAddress = input.MenuAddress,
+                    SystemCoding = input.SystemCoding,
+                    Sorting = input.Sorting,
+                    Icon = input.Icon,
+                    CreationTime = DateTime.Now,
+                    UpdateTime = DateTime.Now
+                };
+                context.menu.Add(info);
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            input.MenuAddress = HttpUtility.UrlEncode(input.MenuAddress);
-            var entity = Mapper.Map<MenuEntity>(input);
-            MenuEntity menuEntity = _menuService.Insert(entity);
-            if (!(menuEntity.Id > 0))
+            catch (Exception err)
             {
-                return ResponseOutput.NotOk("添加菜单失败");
+                return ResponseOutput.NotOk(err.Message);
             }
-            return ResponseOutput.Ok();
         }
 
-        public IResponseOutput MenuUpdate(MenuUpdateInput input)
+        public IResponseOutput MenuUpdate(MenuEditPDto input)
         {
-            var menu = _menuService.Find<MenuEntity>(input.Id);
-            if (!(menu?.Id > 0))
+            try
             {
-                return ResponseOutput.NotOk("菜单不存在！");
+                var menuupdate = context.menu.Find(input.Id);
+                if (menuupdate == null)
+                {
+                    return ResponseOutput.NotOk("菜单不存在！");
+                }
+                menuupdate.Sorting = input.Sorting;
+                menuupdate.MenuName = input.MenuName;
+                menuupdate.Icon = input.Icon;
+                menuupdate.SystemCoding = input.SystemCoding;
+                menuupdate.CreationTime = DateTime.Now;
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            input.MenuAddress = HttpUtility.UrlEncode(input.MenuAddress);
-            input.UpdateTime = DateTime.Now;
-            Mapper.Map(input, menu);
-            _menuService.Update(menu);
-            return ResponseOutput.Ok();
+            catch (Exception err)
+            {
+                return ResponseOutput.NotOk(err.Message);
+            }
         }
 
         public IResponseOutput DeleteMenu(int id)
         {
-            var menucategroy = _menuService.Find<MenuEntity>(id);
-            if (menucategroy == null)
+            try
             {
-                return ResponseOutput.NotOk("该菜单为空，不能删除");
+                var menudelete = context.menu.Find(id);
+                if (menudelete == null)
+                {
+                    return ResponseOutput.NotOk("菜单不存在！");
+                }
+                context.menu.Remove(id);
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            _menuService.Delete<MenuEntity>(id);
-            return ResponseOutput.Ok();
+            catch (Exception err)
+            {
+                return ResponseOutput.NotOk(err.Message);
+            }
         }
 
-        public IResponseOutput UpdateMenuZt(MenuUpdateZtInput input)
+        public IResponseOutput UpdateMenuZt(MenuUpdateZtPDto input)
         {
-            var menu = _menuService.Find<MenuEntity>(input.Id);
-            if (!(menu?.Id > 0))
+            try
             {
-                return ResponseOutput.NotOk("菜单不存在！");
+                var menudelete = context.menu.Find(input.Id);
+                if (menudelete == null)
+                {
+                    return ResponseOutput.NotOk("菜单不存在！");
+                }
+                menudelete.State = input.State;
+                menudelete.UpdateTime = DateTime.Now;
+                context.SaveChanges();
+                return ResponseOutput.Ok();
             }
-            input.UpdateTime = DateTime.Now;
-            Mapper.Map(input, menu);
-            _menuService.Update(menu);
-            return ResponseOutput.Ok();
+            catch (Exception err)
+            {
+                return ResponseOutput.NotOk(err.Message);
+            }
         }
     }
 }

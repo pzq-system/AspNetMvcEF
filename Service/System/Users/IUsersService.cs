@@ -1,19 +1,17 @@
 ﻿using Common.Output;
 using Common.Output.Input;
 
-using Model.System;
-
-using Service.System.Users.Input;
+using Entity;
 
 namespace Service.System.Users
 {
-    public interface IUsersService
+    public interface IUsersService : IService
     {
-        IResponseOutput GetUsersList(PagingInput<UserEntity> input);
+        IResponseOutput GetUsersList(PagingInput<UsersPDto> input);
 
-        IResponseOutput Add(UsersAddInput usersEntity);
+        IResponseOutput Add(UsersEditPDto usersEntity);
 
-        IResponseOutput Update(UsersUpdateInput usersEntity);
+        IResponseOutput Update(UsersEditPDto usersEntity);
 
         IResponseOutput Delete(int Id);
     }

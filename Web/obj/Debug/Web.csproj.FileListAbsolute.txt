@@ -85,8 +85,6 @@ E:\project\Demo\Web\bin\Ubiety.Dns.Core.dll
 E:\project\Demo\Web\bin\WebGrease.dll
 E:\project\Demo\Web\bin\ZstdNet.dll
 E:\project\Demo\Web\bin\Common.pdb
-E:\project\Demo\Web\bin\Repository.pdb
-E:\project\Demo\Web\bin\Repository.dll.config
 E:\project\Demo\Web\bin\Autofac.pdb
 E:\project\Demo\Web\bin\Autofac.xml
 E:\project\Demo\Web\bin\Autofac.Integration.Mvc.pdb
@@ -130,7 +128,6 @@ E:\project\Demo\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
 E:\project\Demo\Web\obj\Debug\Web.csproj.CopyComplete
 E:\project\Demo\Web\obj\Debug\Web.dll
 E:\project\Demo\Web\obj\Debug\Web.pdb
-E:\project\Demo\Web\bin\Repository.dll
 E:\project\Demo\Web\bin\Service.dll
 E:\project\Demo\Web\bin\Service.pdb
 E:\project\Demo\Web\bin\AutoMapper.dll
@@ -144,6 +141,6 @@ E:\project\Demo\Web\bin\Microsoft.Extensions.Primitives.dll
 E:\project\Demo\Web\bin\System.ComponentModel.Annotations.dll
 E:\project\Demo\Web\bin\Microsoft.Extensions.Options.xml
 E:\project\Demo\Web\bin\Microsoft.Extensions.Primitives.xml
-E:\project\Demo\Web\bin\Model.dll
-E:\project\Demo\Web\bin\Model.pdb
-E:\project\Demo\Web\bin\Model.dll.config
+E:\project\Demo\Web\bin\Entity.dll
+E:\project\Demo\Web\bin\Entity.pdb
+E:\project\Demo\Web\bin\Entity.dll.config
