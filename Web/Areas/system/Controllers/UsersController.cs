@@ -60,5 +60,9 @@ namespace Web.Areas.system.Controllers
             return Json(_userService.Value.Delete(Id));
         }
 
+        public ActionResult UserRoleEdit() 
+        {
+            return View();
+        }
     }
 }

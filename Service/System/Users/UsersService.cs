@@ -13,6 +13,11 @@ namespace Service.System.Users
 {
     public class UsersService : ServiceBase, IUsersService
     {
+        /// <summary>
+        /// 查询用户信息列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public IResponseOutput GetUsersList(PagingInput<UsersPDto> input)
         {
 
@@ -26,7 +31,11 @@ namespace Service.System.Users
             var list = context.users.FindBy(funcWhere, input.page, input.limit, out int total, funcOrderBy, false);
             return ResponseOutput.Ok(list, total);
         }
-
+        /// <summary>
+        /// 新增用户信息
+        /// </summary>
+        /// <param name="usersEntity"></param>
+        /// <returns></returns>
         public IResponseOutput Add(UsersEditPDto input)
         {
             try
@@ -53,7 +62,11 @@ namespace Service.System.Users
                 return ResponseOutput.NotOk(err.Message);
             }
         }
-
+        /// <summary>
+        /// 修改用户信息
+        /// </summary>
+        /// <param name="usersEntity"></param>
+        /// <returns></returns>
         public IResponseOutput Update(UsersEditPDto input)
         {
             try
@@ -73,7 +86,11 @@ namespace Service.System.Users
                 return ResponseOutput.NotOk(err.Message);
             }
         }
-
+        /// <summary>
+        /// 删除用户信息
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public IResponseOutput Delete(int Id)
         {
             try
@@ -93,5 +110,10 @@ namespace Service.System.Users
             }
 
         }
+
+        //public IResponseOutput GetRole()
+        //{ 
+        
+        //}
     }
 }

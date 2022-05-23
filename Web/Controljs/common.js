@@ -119,7 +119,10 @@ var editData = function (url, data, obj, callback) {
         success: function (result) {
             if (result.code === "0") {
                 layer.msg("数据操作成功", { time: 1500, icon: 1 }, callback);
-            } else {
+            } else if (result.code == "0060") {
+                location.href = "../login/Index";
+            }
+            else {
                 layer.alert(result.msg, { icon: 0 }, function (index2) {
                     layer.close(index2);
 

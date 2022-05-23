@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "角色编辑";
+}
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="padding: 15px;">
+            <form class="layui-form" action="" lay-filter="component-form-group">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统名称</label>
+                    <div class="layui-input-block">
+                        <select id="SystemCoding" lay-verify="required" name="SystemCoding" lay-filter="SystemCoding">
+                            <option value="">请选择系统</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="RoleName" autocomplete="off" class="layui-input" maxlength="30">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择菜单</label>
+                    <div class="layui-input-block">
+                        <div id="treeMenu" name="RoleMenu">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="btnSave" id="btnSave">提交数据</button>
+                        <button type="button" class="layui-btn layui-btn-primary" id="btnClose">关闭窗口</button>
+                    </div>
+                </div>
+
+                <input id="hdRoleId" type="hidden" name="Id" />
+                <input id="hdSystemCoding" type="hidden" />
+                <input id="hdMenuIds" type="hidden" />
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @Html.Script("~/Areas/system/Controljs/Role/RoleEdit.js")
+    }

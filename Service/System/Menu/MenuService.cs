@@ -51,7 +51,7 @@ namespace Service.System.Menu
 
         public IResponseOutput GetSystemCode()
         {
-            var list = context.systemfunction.OrderByDescending(c => c.CreationTime).Select(m => new
+            var list = context.systemfunction.OrderBy(c => c.CreationTime).Select(m => new
             {
                 Key = m.SystemCoding,
                 Value = m.SystemCoding + "-" + m.SystemName
